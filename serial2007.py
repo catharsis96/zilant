@@ -1,4 +1,4 @@
-import serial
+#import serial
 import sys
 from time import sleep
 import json
@@ -33,11 +33,13 @@ while True:
     continue
   try:
     data = json.loads(buffer.decode('utf-8'))
-    url = "http://137.117.173.220:3000/sendSensorData"
-    #data = {'sender': 'Alice', 'receiver': 'Bob', 'message': 'We did it!'}
-    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    requests.post(url, data=json.dumps(data), headers=headers)
+    #data = {"uid":"Yan", "Temperature": 33.34, "Light": 0.32, "Humidity": 34.84, "Pressure": 1006.44}
+    url = "http://137.117.173.220:3000/sendSensorData/{uid}/{Temperature}/{Light}/{Humidity}/{Pressure}".format(**data)
+    print("URL",url)
+    requests.get(url)
+    
   except Exception as e:
     print("EXC", e)
-  sleep(0.2)
+  sleep(1)
+  print("DONE")
   buffer = b""
